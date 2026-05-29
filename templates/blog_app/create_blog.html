@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Create Blog
+{% endblock %}
+
+{% block body %}
+
+<div class="create-blog-container">
+  <div class="blog-editor">
+
+    <h2 class="blog-editor__title">
+      Create Blog Post
+    </h2>
+
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <!-- TITLE -->
+      <div class="blog-field">
+        <label class="blog-field__label">
+          Title
+        </label>
+
+        <input
+          type="text"
+          name="title"
+          class="blog-field__input"
+          placeholder="Enter blog title"
+          required
+        />
+      </div>
+
+      <!-- CONTENT -->
+      <div class="blog-field">
+        <label class="blog-field__label">
+          Content
+        </label>
+
+        <textarea
+          name="content"
+          class="blog-field__textarea"
+          placeholder="Write your blog content..."
+          required
+        ></textarea>
+      </div>
+
+      <!-- IMAGE UPLOAD -->
+      <div class="blog-field">
+
+        <label class="blog-field__label">
+          Upload Images
+        </label>
+
+        <label class="blog-upload">
+
+          Click or drag images here to upload
+
+          <input
+            type="file"
+            name="images[]"
+            class="blog-upload__input"
+            id="imageInput"
+            multiple
+          />
+
+        </label>
+
+        <!-- FILE NAMES -->
+        <div id="fileList" class="uploaded-files"></div>
+
+      </div>
+
+      <!-- BUTTONS -->
+      <div class="blog-actions">
+
+        <button
+          type="submit"
+          name="action"
+          value="publish"
+          class="blog-button blog-button--publish"
+        >
+          Publish
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script>
+  const imageInput = document.getElementById("imageInput");
+  const fileList = document.getElementById("fileList");
+
+  imageInput.addEventListener("change", function () {
+
+    fileList.innerHTML = "";
+
+    const files = this.files;
+
+    if (files.length === 0) {
+      fileList.innerHTML = `
+        <div class="file-item">
+          No files selected
+        </div>
+      `;
+      return;
+    }
+
+    for (let i = 0; i < files.length; i++) {
+
+      const fileItem = document.createElement("div");
+
+      fileItem.classList.add("file-item");
+
+      fileItem.innerHTML = `
+        📷 ${files[i].name}
+      `;
+
+      fileList.appendChild(fileItem);
+    }
+
+  });
+</script>
+
+{% endblock %}

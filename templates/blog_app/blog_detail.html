@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ post.title }} | Blog App
+{% endblock %}
+
+{% block body %}
+<div class="blog-detail-container">
+  <h1 class="blog-detail-title">
+    {{ post.title }}
+  </h1>
+  <div class="blog-detail-meta">
+    <span class="blog-detail-author">
+      By {{ post.author.username }}
+    </span>
+    <span class="blog-detail-date">
+      {{ post.created_at|date:"F j, Y" }}
+    </span>
+  </div>
+  <div class="blog-content-images-container">
+    <div class="blog-detail-content">
+        {{ post.content }}
+    </div>
+
+    <div class="blog-detail-images">
+        {% for image in images %}
+        <img src="{{ image.image.url }}" alt="Blog Image" class="blog-detail-image">
+        {% endfor %}
+    </div>
+  </div>
+
+</div>
+{% endblock %}
